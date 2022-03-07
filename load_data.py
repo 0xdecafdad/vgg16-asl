@@ -19,6 +19,9 @@ def as_numpy(path):
 	# convert to np ary with img_to_array
 	# save to list/numpy array
 
+	num_loaded = 0 # number of images successfully loaded and converted
+	num_errors = 0 # number of images where some error occurred preventing them from being properly loaded/converted
+
 	for sub_dir in scandir(path_to_base_dir): # each 'sub_dir' corresponds to a class
 		if sub_dir.is_dir(): # needed to ignore hidden files
 			for elem in scandir(sub_dir): # loop through each image in class
@@ -27,12 +30,16 @@ def as_numpy(path):
 					try:
 						img = load_img(elem)
 						img_numpy_array = img_to_array(img)
+						num_loaded += 1
 					except:
-						print("Error loading image...")
+						num_errors += 1
 			# end inner for loop
-	print(img_numpy_array)
 	# end outer for loop
-	print("Images loaded successfully...")
+
+	# debug printout
+	print("Image loading completed...")
+	print("Loaded %d images" % num_loaded)
+	print("Unable to load %d images" % num_errors)
 # end as_numpy()
 
 def main():
