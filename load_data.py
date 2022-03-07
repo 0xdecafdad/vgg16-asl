@@ -4,13 +4,12 @@
 #		numpy array
 
 from os import scandir
-from sys import argv
+#from sys import argv
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 
-def as_numpy(path):
-	# have user pass path to base directory as a CLA (command-line argument)
-	path_to_base_dir = path # relative to location of this script
+def as_numpy(path_to_dir):
+	path_to_base_dir = path_to_dir # provide absolute path to prevent possible errors
 
 	# Pseudocode:
 	# use os.scandir to list base directory
@@ -26,7 +25,7 @@ def as_numpy(path):
 		if sub_dir.is_dir(): # needed to ignore hidden files
 			for elem in scandir(sub_dir): # loop through each image in class
 					# try to load image from file and save it as a numpy array
-					# if it fails for any reason, print error message
+					# if it fails for any reason, record error
 					try:
 						img = load_img(elem)
 						img_numpy_array = img_to_array(img)
@@ -41,11 +40,3 @@ def as_numpy(path):
 	print("Loaded %d images" % num_loaded)
 	print("Unable to load %d images" % num_errors)
 # end as_numpy()
-
-def main():
-	path = "./PetImages/"
-	as_numpy(path)
-# end main()
-
-if __name__=="__main__":
-	main()
