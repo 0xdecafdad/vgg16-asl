@@ -9,7 +9,7 @@ from os import scandir
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 
-def as_numpy(path_to_dir):
+def as_numpy(path_to_dir, print_debug):
 	path_to_base_dir = path_to_dir # provide absolute path to prevent possible errors
 
 	# Pseudocode:
@@ -17,7 +17,7 @@ def as_numpy(path_to_dir):
 	# loop through each subdirectory (class)
 	# load image with keras load_img
 	# convert to np ary with img_to_array
-	# save to list/numpy array
+	# save to list
 
 	num_loaded = 0 # number of images successfully loaded and converted
 	num_errors = 0 # number of images where some error occurred preventing them from being properly loaded/converted
@@ -29,20 +29,24 @@ def as_numpy(path_to_dir):
 					# try to load image from file and save it as a numpy array then append it to list
 					# if it fails for any reason, record error
 					try:
-						img = load_img(elem)
-						img_numpy_array = img_to_array(img)
-						images_as_numpy_arrays.append(img_numpy_array)
+						img = load_img(elem) # load image using Keras API
+						img_numpy_array = img_to_array(img) # convert loaded image into Numpy array
+						images_as_numpy_arrays.append(img_numpy_array) # add converted image to list
 						num_loaded += 1
 					except:
 						num_errors += 1
 			# end inner for loop
 	# end outer for loop
 
+	# this step might be unnecessary
 	# finally, convert list to Numpy array
-	converted_images = np.array(images_as_numpy_arrays, dtype=object)
+	# converted_images = np.array(images_as_numpy_arrays, dtype=object)
 
 	# debug printout
-	print("Image loading completed...")
-	print("Loaded %d images" % num_loaded)
-	print("Unable to load %d images" % num_errors)
+	if print_debug:
+		print("Image loading completed...")
+		print("Loaded %d images" % num_loaded)
+		print("Unable to load %d images" % num_errors)
+	
+	return images_as_numpy_arrays
 # end as_numpy()
