@@ -3,6 +3,7 @@
 # Desc: 	This file describes a function that loads images from a file into a
 #		numpy array
 
+import numpy as np
 from os import scandir
 #from sys import argv
 from keras.preprocessing.image import load_img
@@ -20,20 +21,25 @@ def as_numpy(path_to_dir):
 
 	num_loaded = 0 # number of images successfully loaded and converted
 	num_errors = 0 # number of images where some error occurred preventing them from being properly loaded/converted
+	images_as_numpy_arrays = [] # Initialize empty list to hold images once converted to Numpy arrays
 
 	for sub_dir in scandir(path_to_base_dir): # each 'sub_dir' corresponds to a class
 		if sub_dir.is_dir(): # needed to ignore hidden files
 			for elem in scandir(sub_dir): # loop through each image in class
-					# try to load image from file and save it as a numpy array
+					# try to load image from file and save it as a numpy array then append it to list
 					# if it fails for any reason, record error
 					try:
 						img = load_img(elem)
 						img_numpy_array = img_to_array(img)
+						images_as_numpy_arrays.append(img_numpy_array)
 						num_loaded += 1
 					except:
 						num_errors += 1
 			# end inner for loop
 	# end outer for loop
+
+	# finally, convert list to Numpy array
+	converted_images = np.array(images_as_numpy_arrays, dtype=object)
 
 	# debug printout
 	print("Image loading completed...")
