@@ -5,9 +5,10 @@
 
 import numpy as np
 from os import scandir
-#from sys import argv
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
+from keras.preprocessing.image import array_to_img
+from PIL import Image
 
 def as_numpy(path_to_dir, print_debug):
 	path_to_base_dir = path_to_dir # provide absolute path to prevent possible errors
@@ -50,3 +51,12 @@ def as_numpy(path_to_dir, print_debug):
 	
 	return images_as_numpy_arrays
 # end as_numpy()
+
+# Given a list of images as Numpy arrays (images) return list with all images modified to (size)
+def resize(images, size):
+	# Loop through each image in list
+	for img in images:
+		# Convert to PIL image type
+		img_as_pil = array_to_img(img)
+		img_as_pil = img_as_pil.resize(size)
+# end resize()
