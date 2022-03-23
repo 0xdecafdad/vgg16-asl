@@ -55,8 +55,8 @@ def as_numpy(path_to_dir, print_debug):
 # Given a list of images as Numpy arrays (images) return list with all images modified to (size)
 def resize(images, size):
 	# Loop through each image in list
-	for img in images:
+	for i in range(len(images)):
 		# Convert to PIL image type
-		img_as_pil = array_to_img(img)
-		img_as_pil = img_as_pil.resize(size)
+		img_as_pil = array_to_img(images[i])
+		images[i] = img_as_pil.resize(size)
 # end resize()
