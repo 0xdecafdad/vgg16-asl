@@ -10,7 +10,7 @@ from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import array_to_img
 from PIL import Image
 
-def as_numpy(path_to_dir, print_debug):
+def as_numpy(path_to_dir, target_size, print_debug):
 	path_to_base_dir = path_to_dir # provide absolute path to prevent possible errors
 
 	# Pseudocode:
@@ -31,6 +31,7 @@ def as_numpy(path_to_dir, print_debug):
 					# if it fails for any reason, record error
 					try:
 						img = load_img(elem) # load image using Keras API
+						img = img.resize(target_size)
 						img_numpy_array = img_to_array(img) # convert loaded image into Numpy array
 						images_as_numpy_arrays.append(img_numpy_array) # add converted image to list
 						num_loaded += 1
